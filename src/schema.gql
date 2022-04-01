@@ -1,0 +1,28 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AuthUserInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  signUp(signupUser: AuthUserInput!): User!
+  singinUser(signInUserInput: AuthUserInput!): User!
+}
+
+type Query {
+  test: String!
+}
+
+type User {
+  accessToken: String
+  description: String
+  email: String!
+  followers: [Int!]
+  following: [Int!]
+  id: Int!
+  image_uri: String
+  password: String!
+}

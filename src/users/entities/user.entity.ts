@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @ObjectType()
 @Entity()
 export class User {
-  @Field(() => Int)
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,12 +12,16 @@ export class User {
   @Column()
   email: string;
 
-  @Field({ nullable: true })
-  accessToken: string;
+  @Field()
+  @Column()
+  username: string;
 
   @Field()
   @Column()
   password: string;
+
+  @Field({ nullable: true })
+  accessToken: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })

@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { SaveCurrentUser } from './interceptors/auth.interceptor';
 
 @Module({
   imports: [
@@ -17,6 +18,12 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '3d' },
     }),
   ],
-  providers: [UsersResolver, UsersService, AuthService, JwtStrategy],
+  providers: [
+    UsersResolver,
+    UsersService,
+    AuthService,
+    JwtStrategy,
+    SaveCurrentUser,
+  ],
 })
 export class UsersModule {}

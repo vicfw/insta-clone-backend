@@ -8,18 +8,13 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class AuthUserInput {
-  @Field()
-  @IsNotEmpty()
-  @IsString()
-  username: string;
-
+export class SignInUserInput {
   @Field()
   @IsNotEmpty()
   @IsEmail({}, { message: 'Please enter a valid email' })
   email: string;
 
-  @Field()  
+  @Field()
   @IsNotEmpty()
   @IsString()
   @Length(6, 100)

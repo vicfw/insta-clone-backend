@@ -5,15 +5,21 @@
 input AuthUserInput {
   email: String!
   password: String!
+  username: String!
 }
 
 type Mutation {
   signUp(signupUser: AuthUserInput!): User!
-  singinUser(signInUserInput: AuthUserInput!): User!
+  singinUser(signInUserInput: SignInUserInput!): User!
 }
 
 type Query {
   test: String!
+}
+
+input SignInUserInput {
+  email: String!
+  password: String!
 }
 
 type User {
@@ -22,7 +28,8 @@ type User {
   email: String!
   followers: [Int!]
   following: [Int!]
-  id: Int!
+  id: Float!
   image_uri: String
   password: String!
+  username: String!
 }

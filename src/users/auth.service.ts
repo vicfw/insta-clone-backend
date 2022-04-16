@@ -1,9 +1,10 @@
 import { AuthUserInput } from './dto/signup-user-input';
 import { UsersService } from './users.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Res } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { Login } from './types/logIn';
+import { SignInUserInput } from './dto/signin-user-input';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -24,14 +25,17 @@ export class AuthService {
     return await this.usersService.create({
       email: createUserInput.email,
       password: hashedPassword,
+      username: createUserInput.username,
     });
   }
 
-  async logIn(signupUserDto: AuthUserInput) {
+  async logIn(signupUserDto: SignInUserInput, res: Response) {
     const [user] = await this.usersService.findAll(signupUserDto.email);
 
     if (!user) {
-      throw new BadRequestException();
+      throw new BadRequestException(
+        'Sorry, your password was incorrect. Please double-check your password.',
+      );
     }
     const isPasswordCorrect = await bcrypt.compare(
       signupUserDto.password,
@@ -42,9 +46,12 @@ export class AuthService {
       throw new BadRequestException('email or password is incorrect');
     }
 
+    const jwt = await this.jwtService.signAsync({ id: user.id });
+
+    res.cookie('jwt', jwt, { httpOnly: true });
+
     return {
       ...user,
-      accessToken: this.jwtService.sign({ id: user.id }),
     };
   }
 }

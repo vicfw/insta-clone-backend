@@ -8,19 +8,64 @@ input AuthUserInput {
   username: String!
 }
 
+input CreateProfileInput {
+  profile_pic: String!
+}
+
+input CreateStoryInput {
+  stories: String!
+  userId: Int!
+}
+
 type Mutation {
+  createProfile(createProfileInput: CreateProfileInput!): Profile!
+  createStory(createStory: CreateStoryInput!): Story!
+  removeProfile(id: Int!): Profile!
+  removeStory(id: Int!): Story!
   signUp(signupUser: AuthUserInput!): User!
   singinUser(signInUserInput: SignInUserInput!): User!
+  updateProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  updateStory(updateStoryInput: UpdateStoryInput!): Story!
+  uploadFile(file: Upload!): String!
+}
+
+type Profile {
+  id: Float!
+  profile_pic: String!
 }
 
 type Query {
-  test: String!
+  getCurrentUser: User!
+  getOneUser(id: Int!): User!
+  profile(id: Int!): Profile!
+  story(id: Int!): Story!
+  userStories(id: Int!): Story!
 }
 
 input SignInUserInput {
   email: String!
   password: String!
 }
+
+type Story {
+  id: Float!
+  stories: [String!]!
+  user: User!
+  userId: Int!
+}
+
+input UpdateProfileInput {
+  id: Int!
+  profile_pic: String!
+}
+
+input UpdateStoryInput {
+  stories: String!
+  userId: Int!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   accessToken: String
@@ -29,7 +74,9 @@ type User {
   followers: [Int!]
   following: [Int!]
   id: Float!
-  image_uri: String
   password: String!
+  profile: Profile
+  profileId: Int
+  story: Story
   username: String!
 }

@@ -1,5 +1,13 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Profile } from 'src/profile/entities/profile.entity';
+import { Story } from 'src/story/entities/story.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -25,10 +33,6 @@ export class User {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  image_uri: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
   description: string;
 
   @Field(() => [Int], { nullable: true })
@@ -38,4 +42,17 @@ export class User {
   @Field(() => [Int], { nullable: true })
   @Column('int', { array: true, nullable: true })
   following: number[];
+
+  @Field(() => Story, { nullable: true })
+  @OneToOne(() => Story, (story) => story.user)
+  story: Story;
+
+  @Field(() => Profile, { nullable: true })
+  @JoinColumn()
+  @OneToOne(() => Profile)
+  profile: Profile;
+
+  @Field(() => Int, { nullable: true })
+  @Column()
+  profileId;
 }

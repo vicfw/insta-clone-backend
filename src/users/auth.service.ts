@@ -48,7 +48,7 @@ export class AuthService {
 
     const jwt = await this.jwtService.signAsync({ id: user.id });
 
-    res.cookie('jwt', jwt, { httpOnly: true });
+    res.cookie('jwt', jwt, { httpOnly: true, secure: true });
 
     return {
       ...user,

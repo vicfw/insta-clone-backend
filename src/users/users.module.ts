@@ -8,6 +8,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { SaveCurrentUser } from './interceptors/auth.interceptor';
+import { ProfileService } from 'src/profile/profile.service';
+import { ProfileModule } from 'src/profile/profile.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { SaveCurrentUser } from './interceptors/auth.interceptor';
       secret: 'hwdasdwd1231',
       signOptions: { expiresIn: '3d' },
     }),
+    ProfileModule,
   ],
   providers: [
     UsersResolver,

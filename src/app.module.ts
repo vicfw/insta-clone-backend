@@ -6,6 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLFormattedError, ValidationContext } from 'graphql';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
+import { StoryModule } from './story/story.module';
+import { UploadModule } from './upload/upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -31,7 +35,15 @@ import { UsersModule } from './users/users.module';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
+
     ConfigModule.forRoot(),
+    StoryModule,
+    UploadModule,
+    ProfileModule,
   ],
   providers: [],
 })

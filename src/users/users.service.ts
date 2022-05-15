@@ -5,15 +5,24 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { AuthUserInput } from './dto/signup-user-input';
+import { ProfileService } from 'src/profile/profile.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    private profileService: ProfileService,
   ) {}
 
   async create(createUserInput: AuthUserInput) {
-    const user = this.usersRepository.create(createUserInput);
+    const profile = await this.profileService.create({
+      profile_pic: 'default-profile.jpg',
+    });
+
+    const user = this.usersRepository.create({
+      ...createUserInput,
+      profileId: profile.id,
+    });
 
     return await this.usersRepository.save(user);
   }
@@ -23,7 +32,10 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return await this.usersRepository.findOne(id);
+    return await this.usersRepository.findOne(
+      { id },
+      { relations: ['story', 'profile'] },
+    );
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

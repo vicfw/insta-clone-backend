@@ -19,7 +19,7 @@ export class AuthUserInput {
   @IsEmail({}, { message: 'Please enter a valid email' })
   email: string;
 
-  @Field()  
+  @Field()
   @IsNotEmpty()
   @IsString()
   @Length(6, 100)

@@ -28,7 +28,7 @@ export class SaveCurrentUser implements NestInterceptor {
     const cookie: string = req.headers.cookie;
 
     if (!cookie) {
-      next.handle();
+      return next.handle();
     }
     const parsedCookie = cookie.replace('jwt=', '');
 

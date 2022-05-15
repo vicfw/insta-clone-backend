@@ -23,6 +23,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => User, { name: 'singinUser' })
+  @UseInterceptors(SaveCurrentUser)
   async login(
     @Args('signInUserInput') signInUserInput: SignInUserInput,
     @Context('res') res: Response,
@@ -30,11 +31,18 @@ export class UsersResolver {
     return this.authService.logIn(signInUserInput, res);
   }
 
-  @Query(() => String, { name: 'test' })
+  @Query(() => User, { name: 'getCurrentUser' })
   @UseInterceptors(SaveCurrentUser)
   @UseGuards(AuthGuard)
-  async hello(@CurrentUser() user: User) {
-    return `hello 👋🏻 ${user.email}`;
+  async getCurrentUser(@CurrentUser() user: User) {
+    return this.usersService.findOne(user.id);
+  }
+
+  @Query(() => User, { name: 'getOneUser' })
+  @UseInterceptors(SaveCurrentUser)
+  @UseGuards(AuthGuard)
+  async findOne(@Args('id', { type: () => Int }) id: number) {
+    return this.usersService.findOne(id);
   }
 }
 function UseFilters(HttpExceptionFilter: any) {

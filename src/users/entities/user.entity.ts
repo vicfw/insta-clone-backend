@@ -21,8 +21,12 @@ export class User {
   email: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   username: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
+  name: string;
 
   @Field()
   @Column()

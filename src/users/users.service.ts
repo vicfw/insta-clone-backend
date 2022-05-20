@@ -37,6 +37,15 @@ export class UsersService {
     );
   }
 
+  async findOneByUserName(username: string) {
+    console.log(username);
+
+    return await this.usersRepository.findOne(
+      { username },
+      { relations: ['story', 'profile'] },
+    );
+  }
+
   update(id: number, updateUserInput: UpdateUserInput) {
     return `This action updates a #${id} user`;
   }

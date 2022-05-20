@@ -37,6 +37,7 @@ type Profile {
 type Query {
   getCurrentUser: User!
   getOneUser(id: Int!): User!
+  getOneUserByUsername(username: String!): User!
   profile(id: Int!): Profile!
   story(id: Int!): Story!
   userStories(id: Int!): Story!
@@ -74,6 +75,7 @@ type User {
   followers: [Int!]
   following: [Int!]
   id: Float!
+  name: String
   password: String!
   profile: Profile
   profileId: Int

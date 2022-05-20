@@ -44,6 +44,17 @@ export class UsersResolver {
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.usersService.findOne(id);
   }
+
+  @Query(() => User, { name: 'getOneUserByUsername' })
+  @UseInterceptors(SaveCurrentUser)
+  @UseGuards(AuthGuard)
+  async findOneByUserName(
+    @Args('username', { type: () => String }) username: string,
+  ) {
+    console.log(username);
+
+    return this.usersService.findOneByUserName(username);
+  }
 }
 function UseFilters(HttpExceptionFilter: any) {
   throw new Error('Function not implemented.');

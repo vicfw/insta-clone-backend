@@ -11,4 +11,8 @@ export class Profile {
   @Field(() => String)
   @Column('text', { nullable: true, default: 'default-profile.jpg' })
   profile_pic: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true, default: '' })
+  name: string;
 }

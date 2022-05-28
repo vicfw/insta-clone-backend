@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersResolver } from './users.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { SaveCurrentUser } from './interceptors/auth.interceptor';
 import { ProfileService } from 'src/profile/profile.service';
 import { ProfileModule } from 'src/profile/profile.module';
+import { Profile } from 'src/profile/entities/profile.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { ProfileModule } from 'src/profile/profile.module';
       secret: 'hwdasdwd1231',
       signOptions: { expiresIn: '3d' },
     }),
-    ProfileModule,
+    forwardRef(() => ProfileModule)
   ],
   providers: [
     UsersResolver,
@@ -28,5 +29,6 @@ import { ProfileModule } from 'src/profile/profile.module';
     JwtStrategy,
     SaveCurrentUser,
   ],
+  exports: [UsersService],
 })
 export class UsersModule {}

@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -10,12 +15,14 @@ import { ProfileService } from 'src/profile/profile.service';
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @Inject(forwardRef(() => ProfileService))
     private profileService: ProfileService,
   ) {}
 
   async create(createUserInput: AuthUserInput) {
     const profile = await this.profileService.create({
       profile_pic: 'default-profile.jpg',
+      name: '',
     });
 
     const user = this.usersRepository.create({
@@ -38,16 +45,22 @@ export class UsersService {
   }
 
   async findOneByUserName(username: string) {
-    console.log(username);
-
     return await this.usersRepository.findOne(
       { username },
       { relations: ['story', 'profile'] },
     );
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserInput: UpdateUserInput) {
+    const user = this.findOne(id);
+
+    if (!user) return new BadRequestException();
+
+    return await this.usersRepository.update(id, {
+      ...user,
+      username: updateUserInput.username,
+      description: updateUserInput.description,
+    });
   }
 
   remove(id: number) {

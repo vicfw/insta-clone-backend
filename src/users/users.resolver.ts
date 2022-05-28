@@ -51,8 +51,6 @@ export class UsersResolver {
   async findOneByUserName(
     @Args('username', { type: () => String }) username: string,
   ) {
-    console.log(username);
-
     return this.usersService.findOneByUserName(username);
   }
 }

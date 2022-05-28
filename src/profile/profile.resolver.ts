@@ -3,13 +3,16 @@ import { ProfileService } from './profile.service';
 import { Profile } from './entities/profile.entity';
 import { CreateProfileInput } from './dto/create-profile.input';
 import { UpdateProfileInput } from './dto/update-profile.input';
+import { User } from 'src/users/entities/user.entity';
 
 @Resolver(() => Profile)
 export class ProfileResolver {
   constructor(private readonly profileService: ProfileService) {}
 
   @Mutation(() => Profile)
-  createProfile(@Args('createProfileInput') createProfileInput: CreateProfileInput) {
+  createProfile(
+    @Args('createProfileInput') createProfileInput: CreateProfileInput,
+  ) {
     return this.profileService.create(createProfileInput);
   }
 
@@ -23,9 +26,14 @@ export class ProfileResolver {
     return this.profileService.findOne(id);
   }
 
-  @Mutation(() => Profile)
-  updateProfile(@Args('updateProfileInput') updateProfileInput: UpdateProfileInput) {
-    return this.profileService.update(updateProfileInput.id, updateProfileInput);
+  @Mutation(() => User)
+  async updateProfile(
+    @Args('updateProfileInput') updateProfileInput: UpdateProfileInput,
+  ) {
+    return await this.profileService.update(
+      updateProfileInput.profile_id,
+      updateProfileInput,
+    );
   }
 
   @Mutation(() => Profile)

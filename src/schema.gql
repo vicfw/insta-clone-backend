@@ -9,6 +9,7 @@ input AuthUserInput {
 }
 
 input CreateProfileInput {
+  name: String!
   profile_pic: String!
 }
 
@@ -24,13 +25,14 @@ type Mutation {
   removeStory(id: Int!): Story!
   signUp(signupUser: AuthUserInput!): User!
   singinUser(signInUserInput: SignInUserInput!): User!
-  updateProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  updateProfile(updateProfileInput: UpdateProfileInput!): User!
   updateStory(updateStoryInput: UpdateStoryInput!): Story!
   uploadFile(file: Upload!): String!
 }
 
 type Profile {
   id: Float!
+  name: String
   profile_pic: String!
 }
 
@@ -56,8 +58,12 @@ type Story {
 }
 
 input UpdateProfileInput {
-  id: Int!
-  profile_pic: String!
+  description: String
+  name: String
+  profile_id: Int!
+  profile_pic: String
+  user_id: Int!
+  username: String!
 }
 
 input UpdateStoryInput {
@@ -75,7 +81,6 @@ type User {
   followers: [Int!]
   following: [Int!]
   id: Float!
-  name: String
   password: String!
   profile: Profile
   profileId: Int

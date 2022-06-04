@@ -63,6 +63,21 @@ export class UsersService {
     });
   }
 
+  async searchByUsername(username: string, currentUsername) {
+    const users = await this.usersRepository
+      .createQueryBuilder('user')
+      .select()
+      .where('username ILIKE :username', { username: `%${username}%` })
+      .leftJoinAndSelect('user.profile', 'profile')
+      .getMany();
+
+    const deSelectCurrentUser = users.filter(
+      (user) => user.username !== currentUsername,
+    );
+
+    return deSelectCurrentUser;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} user`;
   }

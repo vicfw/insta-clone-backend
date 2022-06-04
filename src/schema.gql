@@ -41,6 +41,7 @@ type Query {
   getOneUser(id: Int!): User!
   getOneUserByUsername(username: String!): User!
   profile(id: Int!): Profile!
+  searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
   userStories(id: Int!): Story!
 }

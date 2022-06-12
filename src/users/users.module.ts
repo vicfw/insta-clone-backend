@@ -20,7 +20,7 @@ import { Profile } from 'src/profile/entities/profile.entity';
       secret: 'hwdasdwd1231',
       signOptions: { expiresIn: '3d' },
     }),
-    forwardRef(() => ProfileModule)
+    forwardRef(() => ProfileModule),
   ],
   providers: [
     UsersResolver,

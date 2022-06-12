@@ -3,7 +3,6 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthUserInput } from './dto/signup-user-input';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Request, response, Response } from 'express';

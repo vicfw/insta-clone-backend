@@ -34,6 +34,8 @@ export class ProfileService {
 
   async update(id: number, updateProfileInput: UpdateProfileInput) {
     try {
+      console.log(updateProfileInput);
+
       if (
         updateProfileInput.username ||
         updateProfileInput.description ||

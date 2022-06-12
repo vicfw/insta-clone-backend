@@ -10,6 +10,8 @@ import { StoryModule } from './story/story.module';
 import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ProfileModule } from './profile/profile.module';
+import { FollowingModule } from './following/following.module';
+import { FollowerModule } from './follower/follower.module';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { ProfileModule } from './profile/profile.module';
       database: 'instagram',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
+      autoLoadEntities: true,
     }),
 
     ServeStaticModule.forRoot({
@@ -44,6 +47,8 @@ import { ProfileModule } from './profile/profile.module';
     StoryModule,
     UploadModule,
     ProfileModule,
+    FollowingModule,
+    FollowerModule,
   ],
   providers: [],
 })

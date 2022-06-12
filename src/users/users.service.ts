@@ -22,7 +22,7 @@ export class UsersService {
   async create(createUserInput: AuthUserInput) {
     const profile = await this.profileService.create({
       profile_pic: 'default-profile.jpg',
-      name: '',
+      name: 'User',
     });
 
     const user = this.usersRepository.create({
@@ -40,14 +40,14 @@ export class UsersService {
   async findOne(id: number) {
     return await this.usersRepository.findOne(
       { id },
-      { relations: ['story', 'profile'] },
+      { relations: ['story', 'profile', 'following', 'follower'] },
     );
   }
 
   async findOneByUserName(username: string) {
     return await this.usersRepository.findOne(
       { username },
-      { relations: ['story', 'profile'] },
+      { relations: ['story', 'profile', 'following', 'follower'] },
     );
   }
 
@@ -63,19 +63,20 @@ export class UsersService {
     });
   }
 
-  async searchByUsername(username: string, currentUsername) {
+  async searchByUsername(username: string, currentUsername: string) {
+    if (!username) {
+      return;
+    }
     const users = await this.usersRepository
       .createQueryBuilder('user')
       .select()
       .where('username ILIKE :username', { username: `%${username}%` })
       .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.following', 'following')
+      .leftJoinAndSelect('user.follower', 'follower')
       .getMany();
 
-    const deSelectCurrentUser = users.filter(
-      (user) => user.username !== currentUsername,
-    );
-
-    return deSelectCurrentUser;
+    return users;
   }
 
   remove(id: number) {

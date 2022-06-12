@@ -8,6 +8,16 @@ input AuthUserInput {
   username: String!
 }
 
+input CreateFollowerInput {
+  followerUserId: Int!
+  userId: Int!
+}
+
+input CreateFollowingInput {
+  followedUserId: Int!
+  userId: Int!
+}
+
 input CreateProfileInput {
   name: String!
   profile_pic: String!
@@ -18,13 +28,31 @@ input CreateStoryInput {
   userId: Int!
 }
 
+type Follower {
+  followerUserId: Int!
+  id: Int!
+  userId: Int!
+}
+
+type Following {
+  followedUserId: Int!
+  id: Int!
+  userId: Int!
+}
+
 type Mutation {
+  createFollower(createFollowerInput: CreateFollowerInput!): Follower!
   createProfile(createProfileInput: CreateProfileInput!): Profile!
   createStory(createStory: CreateStoryInput!): Story!
+  followUser(createFollowing: CreateFollowingInput!): Following!
+  removeFollower(id: Int!): Follower!
+  removeFollowing(id: Int!): Following!
   removeProfile(id: Int!): Profile!
   removeStory(id: Int!): Story!
   signUp(signupUser: AuthUserInput!): User!
   singinUser(signInUserInput: SignInUserInput!): User!
+  updateFollower(updateFollowerInput: UpdateFollowerInput!): Follower!
+  updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
   updateProfile(updateProfileInput: UpdateProfileInput!): User!
   updateStory(updateStoryInput: UpdateStoryInput!): Story!
   uploadFile(file: Upload!): String!
@@ -37,9 +65,12 @@ type Profile {
 }
 
 type Query {
+  follower(id: Int!): Follower!
+  following: [Following!]!
   getCurrentUser: User!
   getOneUser(id: Int!): User!
   getOneUserByUsername(username: String!): User!
+  oneFollowing(id: Int!): Following!
   profile(id: Int!): Profile!
   searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
@@ -56,6 +87,18 @@ type Story {
   stories: [String!]!
   user: User!
   userId: Int!
+}
+
+input UpdateFollowerInput {
+  followerUserId: Int
+  id: Int!
+  userId: Int
+}
+
+input UpdateFollowingInput {
+  followedUserId: Int
+  id: Int!
+  userId: Int
 }
 
 input UpdateProfileInput {
@@ -79,8 +122,8 @@ type User {
   accessToken: String
   description: String
   email: String!
-  followers: [Int!]
-  following: [Int!]
+  follower: [Follower!]!
+  following: [Following!]!
   id: Float!
   password: String!
   profile: Profile

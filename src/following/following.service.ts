@@ -37,7 +37,8 @@ export class FollowingService {
     return `This action updates a #${id} Following`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} Following`;
+  async remove(id: number) {
+    await this.followerService.remove(id);
+    return await this.followingRepository.delete({ userId: id });
   }
 }

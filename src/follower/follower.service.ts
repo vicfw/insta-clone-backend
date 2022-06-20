@@ -28,7 +28,7 @@ export class FollowerService {
     return `This action updates a #${id} follower`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} follower`;
+  async remove(id: number) {
+    return await this.followerRepository.delete({ followerUserId: id });
   }
 }

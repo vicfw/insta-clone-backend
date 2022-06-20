@@ -38,7 +38,7 @@ export class FollowingResolver {
     );
   }
 
-  @Mutation(() => Following)
+  @Mutation(() => Following, { name: 'removeFollowing' })
   removeFollowing(@Args('id', { type: () => Int }) id: number) {
     return this.FollowingService.remove(id);
   }

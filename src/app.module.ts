@@ -36,7 +36,6 @@ import { FollowerModule } from './follower/follower.module';
       database: 'instagram',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
-      autoLoadEntities: true,
     }),
 
     ServeStaticModule.forRoot({

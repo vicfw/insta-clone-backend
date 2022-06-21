@@ -11,24 +11,17 @@ export class StoryService {
   constructor(@InjectRepository(Story) private repo: Repository<Story>) {}
 
   async create(createStoryInput: CreateStoryInput) {
-    const userHaveStory = await this.findOne(createStoryInput.userId);
-
-    if (userHaveStory) {
-      await this.update(createStoryInput.userId, createStoryInput);
-
-      const story = {
-        stories: [...userHaveStory.stories, createStoryInput.stories],
-        userId: createStoryInput.userId,
-      };
-      return story;
-    }
-
     const story = this.repo.create({
-      stories: [createStoryInput.stories],
+      story: createStoryInput.story,
       userId: createStoryInput.userId,
     });
 
     await this.repo.save(story);
+
+    // setTimeout(() => {
+    //   this.remove(story.id);
+    // }, 60000);
+
     return story;
   }
 
@@ -52,7 +45,7 @@ export class StoryService {
       return await this.repo.update(
         { userId: id },
         {
-          stories: [...stories.stories, updateStoryInput.stories],
+          story: updateStoryInput.stories,
         },
       );
     }
@@ -61,6 +54,6 @@ export class StoryService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} story`;
+    return this.repo.delete(id);
   }
 }

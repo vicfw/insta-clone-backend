@@ -10,6 +10,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { AuthUserInput } from './dto/signup-user-input';
 import { ProfileService } from 'src/profile/profile.service';
+import { LoneSchemaDefinitionRule } from 'graphql';
 
 @Injectable()
 export class UsersService {
@@ -40,14 +41,14 @@ export class UsersService {
   async findOne(id: number) {
     return await this.usersRepository.findOne(
       { id },
-      { relations: ['story', 'profile', 'following', 'follower'] },
+      { relations: ['stories', 'profile', 'following', 'follower'] },
     );
   }
 
   async findOneByUserName(username: string) {
     return await this.usersRepository.findOne(
       { username },
-      { relations: ['story', 'profile', 'following', 'follower'] },
+      { relations: ['stories', 'profile', 'following', 'follower'] },
     );
   }
 

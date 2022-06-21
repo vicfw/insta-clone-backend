@@ -13,11 +13,9 @@ export class UpdateProfileInput extends PartialType(CreateProfileInput) {
   user_id: number;
 
   @Field(() => String, { nullable: true })
-  @IsString()
   profile_pic: string;
 
   @Field(() => String, { nullable: true })
-  @IsString()
   name: string;
 
   @Field(() => String)
@@ -25,6 +23,5 @@ export class UpdateProfileInput extends PartialType(CreateProfileInput) {
   username: string;
 
   @Field(() => String, { nullable: true })
-  @IsString()
   description: string;
 }

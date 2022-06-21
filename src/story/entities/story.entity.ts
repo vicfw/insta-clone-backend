@@ -5,24 +5,22 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @ObjectType()
 @Entity()
 export class Story {
-  @Field()
+  @Field({ nullable: true })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => [String])
-  @Column('text', { array: true })
-  stories: string[];
+  @Field(() => String, { nullable: true })
+  @Column('text')
+  story: string;
 
   @Field(() => User)
-  @OneToOne(() => User)
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.stories)
   user: User;
 
   @Field(() => Int)

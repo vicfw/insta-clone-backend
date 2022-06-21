@@ -3,7 +3,7 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 @InputType()
 export class CreateStoryInput {
   @Field(() => String)
-  stories: string;
+  story: string;
 
   @Field(() => Int)
   userId: number;

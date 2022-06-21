@@ -38,9 +38,9 @@ export class User {
   @Column({ nullable: true })
   description: string;
 
-  @Field(() => Story, { nullable: true })
-  @OneToOne(() => Story, (story) => story.user)
-  story: Story;
+  @Field(() => [Story], { nullable: true })
+  @OneToMany(() => Story, (story) => story.user)
+  stories: Story[];
 
   @Field(() => Profile, { nullable: true })
   @JoinColumn()

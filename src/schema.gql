@@ -24,7 +24,7 @@ input CreateProfileInput {
 }
 
 input CreateStoryInput {
-  stories: String!
+  story: String!
   userId: Int!
 }
 
@@ -83,8 +83,8 @@ input SignInUserInput {
 }
 
 type Story {
-  id: Float!
-  stories: [String!]!
+  id: Float
+  story: String
   user: User!
   userId: Int!
 }
@@ -112,6 +112,7 @@ input UpdateProfileInput {
 
 input UpdateStoryInput {
   stories: String!
+  story: String
   userId: Int!
 }
 
@@ -128,6 +129,6 @@ type User {
   password: String!
   profile: Profile
   profileId: Int
-  story: Story
+  stories: [Story!]
   username: String!
 }

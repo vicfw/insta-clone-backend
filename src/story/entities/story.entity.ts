@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Profile } from 'src/profile/entities/profile.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -19,9 +20,17 @@ export class Story {
   @Column('text')
   story: string;
 
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.stories)
   user: User;
+
+  @Field(() => Profile, { nullable: true })
+  @ManyToOne(() => Profile, (profile) => profile.stories)
+  profile: Profile;
+
+  @Field(() => Int)
+  @Column()
+  profileId: number;
 
   @Field(() => Int)
   @Column()

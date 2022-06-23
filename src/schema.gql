@@ -24,6 +24,7 @@ input CreateProfileInput {
 }
 
 input CreateStoryInput {
+  profileId: Int!
   story: String!
   userId: Int!
 }
@@ -43,7 +44,7 @@ type Following {
 type Mutation {
   createFollower(createFollowerInput: CreateFollowerInput!): Follower!
   createProfile(createProfileInput: CreateProfileInput!): Profile!
-  createStory(createStory: CreateStoryInput!): Story!
+  createStory(createStory: CreateStoryInput!): Story
   followUser(createFollowing: CreateFollowingInput!): Following!
   removeFollower(id: Int!): Follower!
   removeFollowing(id: Int!): Following!
@@ -62,6 +63,7 @@ type Profile {
   id: Float!
   name: String
   profile_pic: String!
+  stories: [Story!]!
 }
 
 type Query {
@@ -74,7 +76,7 @@ type Query {
   profile(id: Int!): Profile!
   searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
-  userStories(id: Int!): Story!
+  userStories(id: [Int!]!): [Story!]!
 }
 
 input SignInUserInput {
@@ -84,8 +86,10 @@ input SignInUserInput {
 
 type Story {
   id: Float
+  profile: Profile
+  profileId: Int!
   story: String
-  user: User!
+  user: User
   userId: Int!
 }
 
@@ -111,6 +115,7 @@ input UpdateProfileInput {
 }
 
 input UpdateStoryInput {
+  profileId: Int!
   stories: String!
   story: String
   userId: Int!

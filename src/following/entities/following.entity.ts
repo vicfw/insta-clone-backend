@@ -17,6 +17,8 @@ export class Following {
   @ManyToOne(() => User, (user) => user.following)
   user: User;
 
+  
+
   @Field(() => Int)
   @Column()
   userId: number;

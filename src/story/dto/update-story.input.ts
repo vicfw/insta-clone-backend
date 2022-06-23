@@ -8,4 +8,7 @@ export class UpdateStoryInput extends PartialType(CreateStoryInput) {
 
   @Field(() => Int)
   userId: number;
+
+  @Field(() => Int)
+  profileId: number;
 }

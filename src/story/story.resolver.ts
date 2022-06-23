@@ -8,15 +8,15 @@ import { UpdateStoryInput } from './dto/update-story.input';
 export class StoryResolver {
   constructor(private readonly storyService: StoryService) {}
 
-  @Mutation(() => Story)
+  @Mutation(() => Story, { nullable: true })
   createStory(@Args('createStory') createStoryInput: CreateStoryInput) {
     return this.storyService.create(createStoryInput);
   }
 
-  @Query(() => Story, { name: 'userStories' })
+  @Query(() => [Story], { name: 'userStories' })
   async findStoriesByUser(
-    @Args('id', { type: () => Int }) id: number,
-  ): Promise<Story> {
+    @Args('id', { type: () => [Int] }) id: number[],
+  ): Promise<Story[]> {
     return await this.storyService.findStoriesById(id);
   }
 

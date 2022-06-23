@@ -5,6 +5,7 @@ import { getRepository, Repository } from 'typeorm';
 import { CreateStoryInput } from './dto/create-story.input';
 import { UpdateStoryInput } from './dto/update-story.input';
 import { Story } from './entities/story.entity';
+import { In } from 'typeorm';
 
 @Injectable()
 export class StoryService {
@@ -14,6 +15,7 @@ export class StoryService {
     const story = this.repo.create({
       story: createStoryInput.story,
       userId: createStoryInput.userId,
+      profileId: createStoryInput.profileId,
     });
 
     await this.repo.save(story);
@@ -25,11 +27,15 @@ export class StoryService {
     return story;
   }
 
-  async findStoriesById(id: number) {
-    const stories = await this.repo.findOne(
-      { userId: id },
-      { relations: ['user'] },
-    );
+  async findStoriesById(id: number[]) {
+    console.log(id);
+
+    const stories = await this.repo.find({
+      where: { userId: In(id) },
+      relations: ['user', 'profile'],
+    });
+
+    console.log(stories);
 
     return stories;
   }

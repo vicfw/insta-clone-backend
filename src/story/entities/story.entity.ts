@@ -21,6 +21,7 @@ export class Story {
   story: string;
 
   @Field(() => User, { nullable: true })
+  @JoinColumn()
   @ManyToOne(() => User, (user) => user.stories)
   user: User;
 

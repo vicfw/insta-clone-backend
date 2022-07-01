@@ -28,14 +28,10 @@ export class StoryService {
   }
 
   async findStoriesById(id: number[]) {
-    console.log(id);
-
     const stories = await this.repo.find({
       where: { userId: In(id) },
       relations: ['user', 'profile'],
     });
-
-    console.log(stories);
 
     return stories;
   }

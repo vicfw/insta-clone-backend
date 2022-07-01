@@ -39,10 +39,23 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return await this.usersRepository.findOne(
+    const ss = await this.usersRepository.findOne(
       { id },
-      { relations: ['stories', 'profile', 'following', 'follower'] },
+      {
+        relations: [
+          'stories.profile',
+          'stories.user',
+          'stories',
+          'profile',
+          'following',
+          'follower',
+        ],
+      },
     );
+
+    console.log(ss, 'asdasdadsasd');
+
+    return ss;
   }
 
   async findOneByUserName(username: string) {

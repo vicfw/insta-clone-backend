@@ -1,6 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
 import { Story } from 'src/story/entities/story.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -20,4 +27,19 @@ export class Profile {
   @Field(() => [Story])
   @OneToMany(() => Story, (story) => story.profile)
   stories: Story;
+
+  @Field(() => GraphQLISODateTime)
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  created_at: Date;
+
+  @Field(() => GraphQLISODateTime)
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  updated_at: Date;
 }

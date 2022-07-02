@@ -13,10 +13,10 @@ export class StoryResolver {
     return this.storyService.create(createStoryInput);
   }
 
-  @Query(() => [Story], { name: 'userStories' })
+  @Query(() => [Story], { name: 'userStories', nullable: true })
   async findStoriesByUser(
     @Args('id', { type: () => [Int] }) id: number[],
-  ): Promise<Story[]> {
+  ): Promise<Story[] | Promise<null>> {
     return await this.storyService.findStoriesById(id);
   }
 

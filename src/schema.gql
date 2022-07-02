@@ -29,15 +29,24 @@ input CreateStoryInput {
   userId: Int!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Follower {
+  created_at: DateTime!
   followerUserId: Int!
   id: Int!
+  updated_at: DateTime!
   userId: Int!
 }
 
 type Following {
+  created_at: DateTime!
   followedUserId: Int!
   id: Int!
+  updated_at: DateTime!
   userId: Int!
 }
 
@@ -60,10 +69,12 @@ type Mutation {
 }
 
 type Profile {
+  created_at: DateTime!
   id: Float!
   name: String
   profile_pic: String!
   stories: [Story!]!
+  updated_at: DateTime!
 }
 
 type Query {
@@ -76,7 +87,7 @@ type Query {
   profile(id: Int!): Profile!
   searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
-  userStories(id: [Int!]!): [Story!]!
+  userStories(id: [Int!]!): [Story!]
 }
 
 input SignInUserInput {
@@ -85,10 +96,12 @@ input SignInUserInput {
 }
 
 type Story {
+  created_at: DateTime!
   id: Float
   profile: Profile
   profileId: Int!
   story: String
+  updated_at: DateTime!
   user: User
   userId: Int!
 }
@@ -126,6 +139,7 @@ scalar Upload
 
 type User {
   accessToken: String
+  created_at: DateTime!
   description: String
   email: String!
   follower: [Follower!]!
@@ -135,5 +149,6 @@ type User {
   profile: Profile
   profileId: Int
   stories: [Story!]
+  updated_at: DateTime!
   username: String!
 }

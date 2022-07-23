@@ -22,7 +22,6 @@ export class UsersResolver {
   }
 
   @Mutation(() => User, { name: 'singinUser' })
-  @UseInterceptors(SaveCurrentUser)
   async login(
     @Args('signInUserInput') signInUserInput: SignInUserInput,
     @Context('res') res: Response,

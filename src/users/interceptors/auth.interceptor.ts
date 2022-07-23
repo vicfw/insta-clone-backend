@@ -34,6 +34,8 @@ export class SaveCurrentUser implements NestInterceptor {
 
     const decodedToken: any = await this.JwtService.decode(parsedCookie);
 
+    console.log(decodedToken, 'decodedToken');
+
     const user = await this.usersService.findOne(decodedToken.id);
 
     if (!user) {

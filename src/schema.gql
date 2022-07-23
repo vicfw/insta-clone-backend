@@ -19,8 +19,9 @@ input CreateFollowingInput {
 }
 
 input CreatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  caption: String!
+  image: String!
+  userId: Int!
 }
 
 input CreateProfileInput {
@@ -78,8 +79,12 @@ type Mutation {
 
 type Post {
   caption: String!
+  created_at: DateTime!
   id: Int!
   image: String!
+  updated_at: DateTime!
+  user: User!
+  userId: Int!
 }
 
 type Profile {
@@ -134,9 +139,10 @@ input UpdateFollowingInput {
 }
 
 input UpdatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  caption: String
   id: Int!
+  image: String
+  userId: Int
 }
 
 input UpdateProfileInput {
@@ -167,6 +173,7 @@ type User {
   following: [Following!]!
   id: Float!
   password: String!
+  posts: [Post!]
   profile: Profile
   profileId: Int
   stories: [Story!]

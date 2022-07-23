@@ -13,6 +13,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Follower } from 'src/follower/entities/follower.entity';
+import { Post } from 'src/post/entities/post.entity';
 
 @ObjectType()
 @Entity()
@@ -52,6 +53,10 @@ export class User {
   @Field(() => Int, { nullable: true })
   @Column()
   profileId;
+
+  @Field(() => [Post], { nullable: true })
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[] | null;
 
   @Field(() => [Following])
   @OneToMany(() => Following, (following) => following.user)

@@ -18,6 +18,11 @@ input CreateFollowingInput {
   userId: Int!
 }
 
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateProfileInput {
   name: String!
   profile_pic: String!
@@ -52,20 +57,29 @@ type Following {
 
 type Mutation {
   createFollower(createFollowerInput: CreateFollowerInput!): Follower!
+  createPost(createPostInput: CreatePostInput!): Post!
   createProfile(createProfileInput: CreateProfileInput!): Profile!
   createStory(createStory: CreateStoryInput!): Story
   followUser(createFollowing: CreateFollowingInput!): Following!
   removeFollower(id: Int!): Follower!
   removeFollowing(id: Int!): Following!
+  removePost(id: Int!): Post!
   removeProfile(id: Int!): Profile!
   removeStory(id: Int!): Story!
   signUp(signupUser: AuthUserInput!): User!
   singinUser(signInUserInput: SignInUserInput!): User!
   updateFollower(updateFollowerInput: UpdateFollowerInput!): Follower!
   updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
   updateProfile(updateProfileInput: UpdateProfileInput!): User!
   updateStory(updateStoryInput: UpdateStoryInput!): Story!
   uploadFile(file: Upload!): String!
+}
+
+type Post {
+  caption: String!
+  id: Int!
+  image: String!
 }
 
 type Profile {
@@ -84,6 +98,7 @@ type Query {
   getOneUser(id: Int!): User!
   getOneUserByUsername(username: String!): User!
   oneFollowing(id: Int!): Following!
+  post(id: Int!): Post!
   profile(id: Int!): Profile!
   searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
@@ -116,6 +131,12 @@ input UpdateFollowingInput {
   followedUserId: Int
   id: Int!
   userId: Int
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateProfileInput {

@@ -12,6 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ProfileModule } from './profile/profile.module';
 import { FollowingModule } from './following/following.module';
 import { FollowerModule } from './follower/follower.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { FollowerModule } from './follower/follower.module';
     ProfileModule,
     FollowingModule,
     FollowerModule,
+    PostModule,
   ],
   providers: [],
 })

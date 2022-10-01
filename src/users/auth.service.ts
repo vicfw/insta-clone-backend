@@ -2,16 +2,13 @@ import { AuthUserInput } from './dto/signup-user-input';
 import { UsersService } from './users.service';
 import { BadRequestException, Injectable, Res } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { JwtService } from '@nestjs/jwt';
 import { SignInUserInput } from './dto/signin-user-input';
 import { Response } from 'express';
+import { signJwt } from 'src/utils/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   async singUp(createUserInput: AuthUserInput) {
     const user = await this.usersService.findAll(createUserInput.email);
@@ -46,7 +43,7 @@ export class AuthService {
       throw new BadRequestException('email or password is incorrect');
     }
 
-    const jwt = await this.jwtService.signAsync({ id: user.id });
+    const jwt = signJwt(user.id);
 
     res.cookie('jwt', jwt, { httpOnly: true, secure: true });
 

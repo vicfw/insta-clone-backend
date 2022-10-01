@@ -61,8 +61,6 @@ export class ProfileService {
 
       return updatedUser;
     } catch (e) {
-      console.log(e);
-
       new BadRequestException();
     }
   }

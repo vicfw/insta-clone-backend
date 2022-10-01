@@ -13,14 +13,24 @@ import { ProfileModule } from './profile/profile.module';
 import { FollowingModule } from './following/following.module';
 import { FollowerModule } from './follower/follower.module';
 import { PostModule } from './post/post.module';
+import { decode } from './utils/jwt';
 
 @Module({
   imports: [
-    UsersModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req, res }) => ({ req, res }),
+      context: ({ req, res }) => {
+        const token = req.headers.cookie?.split('=')[1] as string | null;
+
+        const user = token ? decode(token) : null;
+
+        // // Attach the user object to the request object
+        if (user) {
+          req.user = user;
+        }
+        return { req, res };
+      },
       sortSchema: true,
       autoTransformHttpErrors: true,
       cors: {
@@ -38,12 +48,11 @@ import { PostModule } from './post/post.module';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
-
     ConfigModule.forRoot(),
+    UsersModule,
     StoryModule,
     UploadModule,
     ProfileModule,

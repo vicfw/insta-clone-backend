@@ -1,24 +1,27 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { PostService } from './post.service';
-import { Post } from './entities/post.entity';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CurrentUserId } from 'src/users/decorators/current-user.decorator';
+import { User } from 'src/users/entities/user.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/users/guard/auth.guard';
+import { Post } from './entities/post.entity';
+import { PostService } from './post.service';
 
 @Resolver(() => Post)
 export class PostResolver {
   constructor(private readonly postService: PostService) {}
 
   @Mutation(() => Post)
-  @UseGuards(AuthGuard)
-  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
-    return this.postService.create(createPostInput);
+  createPost(
+    @Args('createPostInput') createPostInput: CreatePostInput,
+    @CurrentUserId() userId: number,
+  ) {
+    return this.postService.create({ ...createPostInput, userId: userId });
   }
 
-  @Query(() => [Post], { name: 'post' })
-  findAll() {
-    return this.postService.findAll();
+  @Query(() => [Post], { name: 'posts' })
+  // @UseInterceptors(SaveCurrentUser)
+  findAll(@CurrentUserId() user: number) {
+    return this.postService.findAll(user);
   }
 
   @Query(() => Post, { name: 'post' })

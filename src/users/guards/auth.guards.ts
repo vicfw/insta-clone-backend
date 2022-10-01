@@ -8,9 +8,7 @@ export class AuthGuard implements CanActivate {
 
     const req: any = ctx.getContext().req;
 
-    const cookie = req.headers.cookie;
-
-    if (cookie?.includes('jwt=')) {
+    if (req.user) {
       return true;
     }
 

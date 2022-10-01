@@ -53,8 +53,6 @@ export class UsersService {
       },
     );
 
-    console.log(ss, 'asdasdadsasd');
-
     return ss;
   }
 
@@ -77,7 +75,7 @@ export class UsersService {
     });
   }
 
-  async searchByUsername(username: string, currentUsername: string) {
+  async searchByUsername(username: string) {
     if (!username) {
       return;
     }

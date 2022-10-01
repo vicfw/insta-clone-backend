@@ -4,14 +4,12 @@ import { Following } from './entities/following.entity';
 import { CreateFollowingInput } from './dto/create-following.input';
 import { UpdateFollowingInput } from './dto/update-following.input';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../users/guard/auth.guard';
 
 @Resolver(() => Following)
 export class FollowingResolver {
   constructor(private readonly FollowingService: FollowingService) {}
 
   @Mutation(() => Following, { name: 'followUser' })
-  @UseGuards(AuthGuard)
   async createFollowing(
     @Args('createFollowing') createFollowingInput: CreateFollowingInput,
   ) {

@@ -104,6 +104,7 @@ type Query {
   getOneUserByUsername(username: String!): User!
   oneFollowing(id: Int!): Following!
   post(id: Int!): Post!
+  posts: [Post!]!
   profile(id: Int!): Profile!
   searchByUsername(username: String!): [User!]!
   story(id: Int!): Story!
